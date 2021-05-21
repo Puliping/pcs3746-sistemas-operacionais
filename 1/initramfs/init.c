@@ -1,4 +1,9 @@
+#include "hello_world.h"
+#include "last_scno.h"
+#include "stack.h"
+
 #include <errno.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,22 +12,13 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include "hello_world.h"
 
-#include "stack.h"
-
-#define len(_arr) ((int)((&_arr)[1] - _arr))
-
-static const char * const programs[] = { "/stack_push", "/stack_pop" };
-
-void panic(const char *msg)
-{
+void panic(const char *msg){
 	fprintf(stderr, "%s: %s (errno = %d)\n", msg, strerror(errno), errno);
 	exit(-1);
 }
 
-void mount_fs()
-{
+void mount_fs(){
 	printf("Mounting filesystems\n");
 	// If /sys is not created, make it read-only (mode = 444)
 	if (mkdir("/sys", 0x124) && errno != EEXIST)
@@ -31,42 +27,39 @@ void mount_fs()
 		panic("mount");
 }
 
-int main()
-{
-	printf("Custom initramfs - Hello World syscall:\n");
-	hello_world();
-	mount_fs();
+int main(){
+   
+   mount_fs();
+   hello_world();
+   printf("last system call number = %lu\n", last_scno());
 
-	printf("Forking to run %d programs\n", len(programs));
+   stack_push(5);
+   printf("last system call number = %lu\n", last_scno());
 
-	for (int i = 0; i < len(programs); i++) {
-		const char *path = programs[i];
-		pid_t pid = fork();
-		if (pid == -1) {
-			panic("fork");
-		} else if (pid) {
-			printf("Starting %s (pid = %d)\n", path, pid);
-		} else {
-			execl(path, path, (char *)NULL);
-			panic("execl");
-		}
-	}
+   stack_pop();
+   printf("last system call number = %lu\n", last_scno());
 
-	int program_count = len(programs);
-	while (program_count) {
-		int wstatus;
-		pid_t pid = wait(&wstatus);
-		if (WIFEXITED(wstatus))
-			printf("pid %d exited with %d\n", pid, WEXITSTATUS(wstatus));
-		else if (WIFSIGNALED(wstatus))
-			printf("pid %d killed by signal %d\n", pid, WTERMSIG(wstatus));
-		else
-			continue;
-		program_count--;
-	}
+   int fd = open("/sys/kernel/sys_last_nr/last_nr", O_RDONLY);
+   printf("last system call number = %lu\n", last_scno());
 
-	printf("init finished\n");
-	for (;;)
-		sleep(1000);
-	return 0;
+   char filc[5];
+   
+   if (lseek(fd, 0, SEEK_SET)) {
+			perror("[syscall_watchdog] lseek ded");
+   } else {
+      int size = read(fd, filc, 4);
+      if (size < 0) {
+         perror("[syscall_watchdog] read ded");
+      } else {
+         printf("last system call number from sys dir = %s\n", filc);
+      }
+   }
+
+   printf("last system call number = %lu\n", last_scno());
+
+   for(;;){
+      sleep(1000);
+   }
+   
+   return 0;
 }
