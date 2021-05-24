@@ -12,3 +12,5 @@ O enunciado foi dividido em 3 partes:
 1. Explicar como o kernel obtém o número da system call. É da instrução svc, ou de algum registrador?
 2. Alterar o código fonte do linux e exponha o código da última syscall realizada no diretório sys.
 3. Criar um arquivo init que chame algumas syscalls e mostre seus números.
+
+[Commit final da fase 1](https://github.com/Puliping/pcs3746-sistemas-operacionais/commit/d9ed48d80ce1bf04a5255961bdeb0ac43e16a25c).
