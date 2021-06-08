@@ -1,6 +1,7 @@
 #include "hello_world.h"
 #include "last_scno.h"
 #include "stack.h"
+#include "cfs.h"
 
 #include <errno.h>
 #include <fcntl.h>
@@ -28,34 +29,9 @@ void mount_fs(){
 }
 
 int main(){
-   
-   mount_fs();
+   pid_t pid = fork();
    hello_world();
-   printf("last system call number = %lu\n", last_scno());
-
-   stack_push(5);
-   printf("last system call number = %lu\n", last_scno());
-
-   stack_pop();
-   printf("last system call number = %lu\n", last_scno());
-
-   int fd = open("/sys/kernel/sys_last_nr/last_nr", O_RDONLY);
-   printf("last system call number = %lu\n", last_scno());
-
-   char filc[5];
-   
-   if (lseek(fd, 0, SEEK_SET)) {
-			perror("[syscall_watchdog] lseek ded");
-   } else {
-      int size = read(fd, filc, 4);
-      if (size < 0) {
-         perror("[syscall_watchdog] read ded");
-      } else {
-         printf("last system call number from sys dir = %s\n", filc);
-      }
-   }
-
-   printf("last system call number = %lu\n", last_scno());
+   cfs();
 
    for(;;){
       sleep(1000);
