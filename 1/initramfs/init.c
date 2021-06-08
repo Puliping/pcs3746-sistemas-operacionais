@@ -46,7 +46,7 @@ int main()
 		const char *path = programs[i];
 		pid_t pid = fork();
 		
-      if (pid == -1) {
+       if (pid == -1) {
 			panic("fork");
 		} else if (pid) {
 			printf("Starting %s (pid = %d)\n", path, pid);
