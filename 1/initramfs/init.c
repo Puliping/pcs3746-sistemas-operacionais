@@ -17,7 +17,7 @@
 #define len(_arr) ((int)((&_arr)[1] - _arr))
 
 
-static const char * const programs[] = { "/matrix_multiplication", "/read_files", "/simple_arithmetic" };
+static const char * const programs[] = {  "/simple_arithmetic", "/write_file", "/matrix_multiplication" };
 
 void panic(const char *msg) {
 
@@ -28,30 +28,30 @@ void panic(const char *msg) {
 
 int main(){
 
-	printf("Forking to run programs \n");
-
 	for (int i = 0; i < len(programs); i++) {
 
 		const char *path = programs[i];
 		pid_t pid = fork();
-		
-    	if (pid == -1) {	
-			panic("fork");
-		
-		}else {
 
+    	if(pid == -1){
+
+			panic("fork");
+
+		} else if (pid) {
+			
 			printf("Starting %s (pid = %d)\n", path, pid);
+			cfs();
+
+		} else {
+
 			execl(path, path, (char *)NULL);
-			panic("execl");
-		
+			break;
+			
 		}
 	}
 
-	cfs();
-	printf("init finished\n");
-
-	for (;;)
-		sleep(1000);
+	for(;;)
+		cfs();
 
 	return 0;
 }

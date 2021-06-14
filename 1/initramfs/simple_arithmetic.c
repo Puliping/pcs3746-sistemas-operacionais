@@ -1,17 +1,19 @@
-#include "stack.h"
-
-#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
 
 int main() {
 
-	int a = 1, b = 2;
+    unsigned long long a = 0;
+	int i = 0;
 
-    a += b;
-    
+    while(1){
+		
+		i++;
+		a += rand() % 100;
+	
+		if (i == 100)
+			a = i  = 0;
+	}
+	
 	return 0;
 }
