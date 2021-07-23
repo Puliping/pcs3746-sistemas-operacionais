@@ -43,7 +43,7 @@ O enunciado foi dividido em 2 partes:
 
 No entanto, foi adicionada uma parte intermediária, para estudo dos arquivos em /dev/input.
 
-Esta estapa não pode ser encontrada neste repositório, mas a VM utilizada está disponível no [Google Drive]().
+Esta estapa não pode ser encontrada neste repositório, mas a VM utilizada está disponível no [Google Drive](https://drive.google.com/file/d/1igWI6OaejFDm317IyLwawKz0cn7jZmUs/view?usp=sharing).
 
 ## Assignment 4 - Team 7
 
