@@ -30,3 +30,23 @@ O enunciado foi dividido em 3 partes:
 3. Criar um init.c que, em processos filhos, executa tarefas diversas, como operações aritméticas  ou de I/O, e use o CFS para mostrá-los.
 
 Código disponível na [cfs_sched](https://github.com/Puliping/pcs3746-sistemas-operacionais/tree/cfs_sched).
+
+## Assignment 3 - Team 2
+
+Disponível em https://linux-kernel-lab.blogspot.com/2020/06/assignment-3-2020.html.
+
+> systemtap is a script language developed by RedHat that runs in kernel mode. It collects and displays kernel data (or even user data) as the user wishes. See [SystemTap Beginners Guide](https://sourceware.org/systemtap/SystemTap_Beginners_Guide/). The script [traceio2](https://sourceware.org/systemtap/SystemTap_Beginners_Guide/traceio2sect.html) shows how to monitor I/O activity on a specific device. For this assignment, use the centos distribution because it deals much better with SystemTap. Run this script to monitor different devices in your computer, specially, your mouse. Monitor your mouse in a X windows environment. Who uses it? Create a C program that opens the mouse device and continually reads it and displays the character received. At the same time, monitor the mouse use by the systemtap script.
+
+O enunciado foi dividido em 2 partes:
+1. Instalar e utilizar o SystemTap para monitorar o input do mouse.
+2. Criar um programa em C que monitora o mouse, e comparar com os resultados do SystemTap.
+
+No entanto, foi adicionada uma parte intermediária, para estudo dos arquivos em /dev/input.
+
+Esta estapa não pode ser encontrada neste repositório, mas a VM utilizada está disponível no [Google Drive]().
+
+## Assignment 4 - Team 7
+
+Disponível em https://linux-kernel-lab.blogspot.com/2020/07/assignment-4-2020.html.
+
+> Using phase 4 of Shibata's team, implement the program "large" that uses 2 times the physical memory (adjust memory size in qemu). Make sure the swap area is very large, greater than 4GB. This program declares a large vector. For each element of the vector, a new number is written sequentially. Make the program stop using getchar() after reading 1.5 times the physical memory so that many swaps must have happen. Study /proc/$PID/pagemap to inform what are the pages in the swap partition.
